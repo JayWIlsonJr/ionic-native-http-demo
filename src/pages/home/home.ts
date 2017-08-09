@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Platform } from 'ionic-angular';
 import { HTTP } from '@ionic-native/http';
 
 @Component({
@@ -8,23 +8,28 @@ import { HTTP } from '@ionic-native/http';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController, private http: HTTP) {
+  constructor(public navCtrl: NavController, private http: HTTP, private plt: Platform) {
 
-    http.get('https://swapi.co/api/planets/', {}, {})
-      .then(data => {
+    this.plt.ready().then((readySource) => {
+      console.log('Platform ready from', readySource);
 
-        console.log(data.status);
-        console.log(data.data); // data received by server
-        console.log(data.headers);
+      http.get('https://swapi.co/api/planets/', {}, {})
+        .then(data => {
 
-      })
-      .catch(error => {
+          console.log(data.status);
+          console.log(data.data); // data received by server
+          console.log(data.headers);
 
-        console.log(error.status);
-        console.log(error.error); // error message as string
-        console.log(error.headers);
+        })
+        .catch(error => {
 
-      });
+          console.log(error.status);
+          console.log(error.error); // error message as string
+          console.log(error.headers);
+
+        });
+    })
+
 
   }
 
