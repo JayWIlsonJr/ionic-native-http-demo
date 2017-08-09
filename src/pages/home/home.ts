@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { HTTP } from '@ionic-native/http';
 
 @Component({
   selector: 'page-home',
@@ -7,7 +8,23 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, private http: HTTP) {
+
+    http.get('https://swapi.co/api/planets/', {}, {})
+      .then(data => {
+
+        console.log(data.status);
+        console.log(data.data); // data received by server
+        console.log(data.headers);
+
+      })
+      .catch(error => {
+
+        console.log(error.status);
+        console.log(error.error); // error message as string
+        console.log(error.headers);
+
+      });
 
   }
 
